@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redireccionando</title>
+    <script>
+        // Solución mágica para iOS
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('form').submit();
+            }, 100);
+        };
+    </script>
+</head>
+<body>
+    <form id="form" action="{{ portal_url }}" method="GET">
+        <noscript>
+            <p>Por favor haz clic en continuar si no eres redirigido automáticamente</p>
+            <input type="submit" value="Continuar">
+        </noscript>
+    </form>
+</body>
+</html>
