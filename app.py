@@ -4,6 +4,10 @@ import os
 
 app = Flask(__name__)
 
+@app.before_request
+def log_request():
+    print(f"ZZZZZZZZZZZZZZZZZZZZZ", {request.path})
+
 # Ruta principal del portal cautivo
 @app.route('/')
 def portal():
