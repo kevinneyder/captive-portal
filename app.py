@@ -4,9 +4,30 @@ import os
 
 app = Flask(__name__)
 
-@app.before_request
-def log_request():
-    print(f"ZZZZZZZZZZZZZZZZZZZZZ", {request.path})
+@app.route('/guest/s/default/')
+def unifi_redirect():
+    # Capturar parámetros de UniFi
+    ap_mac = request.args.get('ap', '')
+    client_mac = request.args.get('id', '')
+    timestamp = request.args.get('t', '')
+    redirect_url = request.args.get('url', '')
+    ssid = request.args.get('ssid', '')
+    
+    # Construir nueva URL para tu portal
+    portal_url = f"/?ap_mac={ap_mac}&client_mac={urllib.parse.quote(client_mac)}" \
+                 f"&timestamp={timestamp}&redirect={urllib.parse.quote(redirect_url)}&ssid={urllib.parse.quote(ssid)}"
+    
+    return redirect(portal_url, 302)
+
+# Tu ruta principal existente
+@app.route('/')
+def portal():
+    # Obtener parámetros de la nueva URL
+    client_mac = request.args.get('client_mac', '')
+    redirect_url = request.args.get('redirect', '')
+    
+    # Resto de tu lógica...
+    return render_template('index.html', client_mac=client_mac, redirect_url=redirect_url)
 
 # Ruta principal del portal cautivo
 @app.route('/')
